@@ -44,6 +44,14 @@ typedef struct{
     Node map[MAP_ROW][MAP_COL];
 } DGIST;
 
+// ClientAction 구조체 정의
+typedef struct {
+    int row;
+    int col;
+    int action;
+} ClientAction;
+
+
 void printMap(DGIST dgist) {
     printf("Map:\n");
     for (int i = 0; i < MAP_ROW; i++) {
@@ -53,7 +61,7 @@ void printMap(DGIST dgist) {
                     printf("- ");
                     break;
                 case item:
-                    printf("");
+                    printf("%d ", dgist.map[i][j].item.score);
                     break;
                 case trap:
                     printf("T ");
@@ -103,25 +111,15 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+    // ClientAction 구조체 생성 및 설정
 
-    int x = 0;
-    int y = 0;
-
-
-    enum Action{
-        move, //0
-        setBomb, //1
-    };
-
-    //서버에게 소켓을 통해 전달하는 구조체에요.
-    //QR에서 읽어온 숫자 2개를 row, col에 넣고 위의 enum Action을 참고해서 action 값을 설정하세요.
-    typedef struct{
-        int row;
-        int col;
-        enum Action action;
-    } ClientAction;
+    // 서버에 데이터 전송
+    int x=0;
+    int y=0;
+    int cnt=0;
 
     while(1){
+
         // 서버로부터 데이터 받아오기
         if ((valread = read(sock, buffer, sizeof(DGIST))) == 0) {
             printf("Server disconnected\n");
@@ -134,12 +132,32 @@ int main(int argc, char* argv[]) {
 
         // 맵 데이터 출력
         printMap(received_dgist);
+
+        ClientAction action;
+        action.row = x; // x 값 설정
+        action.col = y; // y 값 설정
+        action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
+        send(sock, &action, sizeof(ClientAction), 0);
+        printf("Action sent to server\n");
+        if (cnt%2 == 0){
+            x += 1;
+            x = x % 4;
+        }
+        else{
+            y += 1;
+            y = y % 4;
+        }
+        cnt += 1;
+
         // 이제 received_dgist를 사용하여 원하는 작업을 수행할 수 있습니다.
+        printf("\nPlayers:\n");
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            printf("Player %d: Row=%d, Col=%d, Score=%d, Bomb=%d\n",
+                i+1, received_dgist.players[i].row, received_dgist.players[i].col,
+                received_dgist.players[i].score, received_dgist.players[i].bomb);
     }
 
-
-    send(new_socket, hello, strlen(hello), 0);
-
+    }
     close(sock);
 
     // // 데이터 송신 및 수신
