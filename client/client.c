@@ -5,7 +5,10 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <client.h>
+#include "client.h"
+#include <pthread.h>
+#include <semaphore.h>
+
 
 void printMap(DGIST dgist) {
     printf("Map:\n");
@@ -44,11 +47,9 @@ void* read_map(void* arg) {
         }
 
         // 받아온 데이터를 DGIST 구조체로 변환
-        DGIST received_dgist;
         memcpy(raw_map_ptr, buffer, sizeof(DGIST));
 
         // 맵 데이터 출력
         // printMap(received_dgist);
     }
-    return 0;
 }

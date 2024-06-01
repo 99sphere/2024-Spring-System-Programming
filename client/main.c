@@ -28,9 +28,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-
     int sock = 0;
-    int valread;
     struct sockaddr_in serv_addr;
 
     // 소켓 생성
@@ -57,7 +55,6 @@ int main(int argc, char* argv[]) {
     // 평생 실행될 qr detection을 thread로 실행
     pthread_t thread_qr;
     qr_thread_data_t qr_thread_data;
-    int rc;
 
     // 스레드 데이터 초기화
     qr_thread_data.sock = sock;
@@ -76,8 +73,7 @@ int main(int argc, char* argv[]) {
     // 평생 실행될 qr detection을 thread로 실행
     pthread_t thread_map;
     map_thread_data_t map_thread_data;
-    int map_thread_ret;
-
+    
     // 스레드 데이터 초기화
     map_thread_data.sock = sock;
     map_thread_data.raw_map_ptr = &raw_map;
