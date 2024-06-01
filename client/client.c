@@ -43,9 +43,7 @@ void* read_map(void* arg) {
         // 서버로부터 데이터 받아오기
         if ((valread = read(sock, buffer, sizeof(DGIST))) == 0) {
             printf("Server disconnected\n");
-            return -1;
         }
-
         // 받아온 데이터를 DGIST 구조체로 변환
         memcpy(raw_map_ptr, buffer, sizeof(DGIST));
 

@@ -6,11 +6,11 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <client.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include "run_qr.hpp"
+#include "client.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
