@@ -1,8 +1,9 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect.hpp>
-#include "run_qr.hpp"
 #include <iostream>
+#include <arpa/inet.h>
 #include "client.h"
+#include "run_qr.hpp"
 
 using namespace std;
 using namespace cv;
@@ -23,7 +24,6 @@ void* run_qr(void* arg){
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;
    
-    ClientAction action={0,};
 
     while (true) {  
         cap >> frame;
@@ -35,6 +35,7 @@ void* run_qr(void* arg){
         vector<Point> points;
         if(detector.detect(gray, points)){
             String info = detector.decode(gray, points);
+            ClientAction action;
             int xy=stoi(info);
             int x = xy / 10;
             int y = xy % 10;
