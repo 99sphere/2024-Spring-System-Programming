@@ -5,6 +5,9 @@
 #include <arpa/inet.h>
 #include "client.h"
 #include "run_qr.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>
 
 using namespace std;
 using namespace cv;
@@ -24,7 +27,6 @@ void* run_qr(void* arg){
     
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;
-   
 
     while (true) {  
         cap >> frame;
