@@ -4,6 +4,7 @@
         "vector": "cpp",
         "client.h": "c",
         "pthread.h": "c",
-        "semaphore.h": "c"
+        "semaphore.h": "c",
+        "string": "cpp"
     }
 }

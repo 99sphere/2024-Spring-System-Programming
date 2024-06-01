@@ -1,6 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect.hpp>
 #include <iostream>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include "client.h"
 #include "run_qr.hpp"
