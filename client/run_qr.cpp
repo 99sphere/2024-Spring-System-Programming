@@ -46,7 +46,7 @@ void* run_qr(void* arg){
             *cur_y_ptr = y;
             action.row = x; // x 값 설정
             action.col = y; // y 값 설정
-            action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
+            // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
             send(sock, &action, sizeof(ClientAction), 0);
         }
     }
