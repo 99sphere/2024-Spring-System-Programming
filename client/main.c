@@ -61,6 +61,8 @@ int main(int argc, char* argv[]) {
     qr_thread_data.cur_x_ptr = &cur_x;
     qr_thread_data.cur_y_ptr = &cur_y;
 
+    printf("FUCK\n");
+
     // 스레드 생성
     int qr_thread_ret;
     qr_thread_ret = pthread_create(&thread_qr, NULL, run_qr, (void*)&qr_thread_data);

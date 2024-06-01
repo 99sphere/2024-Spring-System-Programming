@@ -276,7 +276,7 @@ int main(int argc, char *argv[]) {
 
         client_info newClient;
 
-        newClient.socket = new_socketㅌ;
+        newClient.socket = new_socket;
         newClient.address = address;
         newClient.score = 0;
         newClient.row = -1;
