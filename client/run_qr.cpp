@@ -5,8 +5,7 @@
 using namespace std;
 using namespace cv;
 
-int main(){
-    
+int run_qr(int *x_addr, int *y_addr){
     VideoCapture cap(0);
     if (!cap.isOpened()) {
 	std::cerr << "Error: Unable to open the camera" << std::endl;
@@ -24,7 +23,7 @@ int main(){
             break;
         }
 
-        cvtColor(frame, gray, COLOR_BGR2GRAY);
+    cvtColor(frame, gray, COLOR_BGR2GRAY);
 	vector<Point> points;
 
 	if(detector.detect(gray, points)){

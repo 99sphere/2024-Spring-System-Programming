@@ -6,51 +6,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-
-#define MAX_CLIENTS 2
-#define _MAP_ROW 4
-#define _MAP_COL 4
-#define MAP_ROW _MAP_ROW + 1
-#define MAP_COL _MAP_COL + 1
-
-typedef struct{
-    int socket;
-    struct sockaddr_in address;
-    int row;
-    int col;
-    int score;
-    int bomb;
-} client_info;
-
-enum Status{
-    nothing,
-    item,
-    trap
-};
-
-typedef struct{
-    enum Status status;
-    int score;
-} Item;
-
-typedef struct {
-    int row;
-    int col;
-    Item item; 
-} Node;
-
-typedef struct{
-    client_info players[MAX_CLIENTS];
-    Node map[MAP_ROW][MAP_COL];
-} DGIST;
-
-// ClientAction 구조체 정의
-typedef struct {
-    int row;
-    int col;
-    int action;
-} ClientAction;
-
+#include <client.h>
 
 void printMap(DGIST dgist) {
     printf("Map:\n");
@@ -74,7 +30,7 @@ void printMap(DGIST dgist) {
 
 
 
-int main(int argc, char* argv[]) {
+void *run_client(int argc, char* argv[]) {
     if (argc != 3) {
         printf("Usage: %s <Server IP> <port number>\n", argv[0]);
         return 1;
