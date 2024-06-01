@@ -77,6 +77,10 @@ void* printMap(void* arg);
 void* handleItem(void* arg);
 void printPlayer(void* arg);
 
-//이거 구현을 조교몬이 한 거라서 (조교몬의 피땀눈물...) 오작동이 있을 수 있어요.
-//오류가 발생한 상황과 오류 내역을 lhyzone@dgist.ac.kr로 보내주면 수정해줄게요.
-//오류를 수정하면 안내해드릴테니 git pull을 이용해서 항상 최신상태로 유지하세요.
+// Added
+void* read_map(void* arg);
+
+typedef struct {
+    int sock;
+    DGIST* raw_map_ptr;
+} map_thread_data_t;

@@ -1,11 +1,20 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect.hpp>
+#include "run_qr.hpp"
 #include <iostream>
+#include <client.h>
 
 using namespace std;
 using namespace cv;
 
-int run_qr(int *x_addr, int *y_addr){
+// thread 돌릴때 인자 전달 어떻게 하는지
+void* run_qr(void* arg){
+// int run_qr(int sock, int *x_ptr, int *y_ptr){
+    qr_thread_data_t* data = (qr_thread_data_t*) arg;
+    int sock = data->sock;
+    int* x_ptr = data->x_ptr;
+    int* y_ptr = data->y_ptr;
+    
     VideoCapture cap(0);
     if (!cap.isOpened()) {
 	std::cerr << "Error: Unable to open the camera" << std::endl;
@@ -15,32 +24,29 @@ int run_qr(int *x_addr, int *y_addr){
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;
    
-    while (true) {
-        
+    ClientAction action={0,};
+
+    while (true) {  
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
             break;
         }
-
-    cvtColor(frame, gray, COLOR_BGR2GRAY);
-	vector<Point> points;
-
-	if(detector.detect(gray, points)){
-	    String info = detector.decode(gray, points);
-	    if(!info.empty()){
-	        cout << "Decoded Data: " << info << endl;
-	    }
-	    else{
-	        cout << "None" << endl;
-	    }
-	}
-
-        if (cv::waitKey(30) == 'q') {
-            break;
+        cvtColor(frame, gray, COLOR_BGR2GRAY);
+        vector<Point> points;
+        if(detector.detect(gray, points)){
+            String info = detector.decode(gray, points);
+            int xy=stoi(info);
+            int x = xy / 10;
+            int y = xy % 10;
+            *x_addr = x;
+            *y_addr = y;
+            action.row = x; // x 값 설정
+            action.col = y; // y 값 설정
+            action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
+            send(sock, &action, sizeof(ClientAction), 0);
         }
     }
- 
     cap.release();
     return 0;
 }

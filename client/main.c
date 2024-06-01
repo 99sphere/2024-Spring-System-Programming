@@ -6,13 +6,11 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
-
-
-#define MAX_CLIENTS 2
-#define _MAP_ROW 4
-#define _MAP_COL 4
-#define MAP_ROW _MAP_ROW + 1
-#define MAP_COL _MAP_COL + 1
+#include <client.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include "run_qr.hpp"
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
@@ -25,20 +23,78 @@ int main(int argc, char* argv[]) {
     int cur_x = -1;
     int cur_y = -1;
 
+    if (argc != 3) {
+        printf("Usage: %s <Server IP> <port number>\n", argv[0]);
+        return 1;
+    }
 
-    // 평생실행될 qr detection을 thread로 실행
-    pthread_t thread1, thread2;
-    int thread_arg1 = 1;
-    int thread_arg2 = 2;
 
+    int sock = 0;
+    int valread;
+    struct sockaddr_in serv_addr;
 
-    // 평생실행될 server에서 map을 받아오는 코드 thread로 실행
-    pthread_t thread1, thread2;
-    int thread_arg1 = 1;
-    int thread_arg2 = 2;
+    // 소켓 생성
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
+    }
 
+	const int PORT = atoi(argv[2]);
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+    serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
+
+    DGIST raw_map;
+
+    // DGIST 서버에 연결
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed \n");
+        return -1;
+    }
+
+    // ClientAction 구조체 생성 및 설정
+
+    // 평생 실행될 qr detection을 thread로 실행
+    pthread_t thread_qr;
+    qr_thread_data_t qr_thread_data;
+    int rc;
+
+    // 스레드 데이터 초기화
+    qr_thread_data.sock = sock;
+    qr_thread_data.cur_x_ptr = &cur_x;
+    qr_thread_data.cur_y_ptr = &cur_y;
+
+    // 스레드 생성
+    int qr_thread_ret;
+    qr_thread_ret = pthread_create(&thread_qr, NULL, run_qr, (void*)&qr_thread_data);
+    if (qr_thread_ret) {
+        printf("Error: unable to create thread, %d\n", qr_thread_ret);
+        exit(-1);
+    }
+
+    // 평생 실행될 server에서 map을 받아오는 코드 thread로 실행
+    // 평생 실행될 qr detection을 thread로 실행
+    pthread_t thread_map;
+    map_thread_data_t map_thread_data;
+    int map_thread_ret;
+
+    // 스레드 데이터 초기화
+    map_thread_data.sock = sock;
+    map_thread_data.raw_map_ptr = &raw_map;
+
+    // 스레드 생성
+    int map_thread_ret;
+    map_thread_ret = pthread_create(&thread_map, NULL, read_map, (void*)&map_thread_data);
+    if (map_thread_ret) {
+        printf("Error: unable to create thread, %d\n", map_thread_ret);
+        exit(-1);
+    }
     // 경로탐색 알고리즘
 
+    // 스레드가 종료될 때까지 대기
+    pthread_join(thread_qr, NULL);
+    pthread_join(thread_map, NULL);
 
+    close(sock);
     return 0;
 }
