@@ -23,7 +23,6 @@ void* run_qr(void* arg){
     VideoCapture cap(0);
     if (!cap.isOpened()) {
 	    std::cerr << "Error: Unable to open the camera" << std::endl;
-        return;
     }
     
     cv::QRCodeDetector detector;
@@ -52,5 +51,4 @@ void* run_qr(void* arg){
         }
     }
     cap.release();
-    return;
 }
