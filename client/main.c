@@ -61,14 +61,12 @@ int main(int argc, char* argv[]) {
     pthread_t thread_qr;
     qr_thread_data_t qr_thread_data;
 
-    // 스레드 데이터 초기화
+    // Init data struct for qr thread
     qr_thread_data.sock = sock;
     qr_thread_data.cur_x_ptr = &cur_x;
     qr_thread_data.cur_y_ptr = &cur_y;
 
-    printf("FUCK\n");
-
-    // 스레드 생성
+    // Create Thread
     int qr_thread_ret;
     qr_thread_ret = pthread_create(&thread_qr, NULL, run_qr, (void*)&qr_thread_data);
     if (qr_thread_ret) {
@@ -82,7 +80,7 @@ int main(int argc, char* argv[]) {
     pthread_t thread_map;
     map_thread_data_t map_thread_data;
     
-    DGIST raw_map;
+    DGIST raw_map={0,};
     // 스레드 데이터 초기화
     map_thread_data.sock = sock;
     map_thread_data.raw_map_ptr = &raw_map;
@@ -94,9 +92,10 @@ int main(int argc, char* argv[]) {
         printf("Error: unable to create thread, %d\n", map_thread_ret);
         exit(-1);
     }
-    // 경로탐색 알고리즘
 
     while(1){
+        // 서버에서 데이터를 받아왔나?
+
         // cur_x, cur_y -> 현재 위치
         printf("[Main Algorithm]\n");
         printMap(raw_map);
