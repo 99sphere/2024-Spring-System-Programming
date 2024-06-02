@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int my_dir = atoi(argv[3]);
-    if (!((my_dir == 1) || (my_dir == 3))){
+    int cur_dir = atoi(argv[3]);
+    if (!((cur_dir == 1) || (cur_dir == 3))){
         printf("Current direction must be 1 or 3.\n");
         return 2;
     }
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     int cur_x = -1;
     int cur_y = -1;
-
+    int set_bomb = 0;
     int sock = 0;
     struct sockaddr_in serv_addr;
 
@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
     qr_thread_data.sock = sock;
     qr_thread_data.cur_x_ptr = &cur_x;
     qr_thread_data.cur_y_ptr = &cur_y;
+    qr_thread_data.set_bomb_ptr = &set_bomb;
 
     // Create Thread
     int qr_thread_ret;
@@ -93,48 +94,88 @@ int main(int argc, char* argv[]) {
         printf("Error: unable to create thread, %d\n", map_thread_ret);
         exit(-1);
     }
-                  
-    int dir[4][2] = {{1,0},{-1,0},{0,-1},{0,1}};
-    int prev_x;
-    int prev_y;
 
+    int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+    int prev_x = -1;
+    int prev_y = -1;
+
+    int next_dir;
+    int next_x;
+    int next_y;
     while(1){
-        // 서버에서 데이터를 받아왔나?
-        printf("[Main Loop] cur_x: %d, cur_y: %d, cur_status: %d", cur_x, cur_y, raw_map.map[cur_x][cur_y].item.status);
-        // cur_x
-        // cur_y
-        // for(int d = 0;d<4;d++){
-        //     int ny = y+dir[d][0];
-        //     int nx = x+dir[d][1];
-            
-        //     if(( ny >= 0 && nx >= 0) && (ny < 5 && nx < 5)){
-        //         raw_map.map[nx][ny].item.status
-        //         if(raw_map.map[nx][ny]){
+        int score_min = -1;
 
-        //         }
-        //     }
-        // }
-        printf("[Main Algorithm]\n");
-        printMap(raw_map);
-        sleep(1);
-
-
-
-        /*
-        
-        switch (dgist.map[i][j].item.status) {
-            case nothing:
-                printf("- ");
-                break;
-            case item:
-                printf("%d ", dgist.map[i][j].item.score);
-                break;
-            case trap:
-                printf("T ");
-                break;
+        // printf("[Main Loop] cur_x: %d, cur_y: %d, cur_status: %d", cur_x, cur_y, raw_map.map[cur_x][cur_y].item.status);
+        for(int d = 0;d<4;d++){
+            int score;
+            int diff = d - cur_dir;
+            if (diff < 0){
+                diff += 4;
+            }
+            if (diff != 2){
+                int nx = cur_x+dir[d][0];
+                int ny = cur_y+dir[d][1];
+    
+                if((ny >= 0 && nx >= 0) && (ny < 5 && nx < 5)){
+                    if (raw_map.map[nx][ny].item.status==1 || raw_map.map[nx][ny].item.status==0){
+                        if (raw_map.map[nx][ny].item.status==1){
+                            score = raw_map.map[nx][ny].item.score;
+                        }
+                        else{
+                            score = 0;
+                        }
+                        if (score > score_min){
+                            next_dir = d;
+                            next_x = nx;
+                            next_y = ny;
+                        }
+                    }
+                }
+            }
         }
-            
-            */
+        
+        if (next_dir==-1){ // trap 또는 빈칸으로 둘러싸인 경우, 지금은 유턴
+            // turn_left();
+            // turn_left();
+            // straight();
+            cur_dir -= 2;
+            if (cur_dir < 0){
+                cur_dir += 4;
+            }        
+        }
+
+        else{
+            int calc_rot = cur_dir - next_dir;
+            if (calc_rot < 0){
+                calc_rot += 4;
+            }
+
+            if (calc_rot == 0){
+                // straight();
+            } 
+
+            else if (calc_rot == 1){
+                // turn_left();
+                // straight();
+                cur_dir -= 1;
+                if (cur_dir < 0){
+                    cur_dir += 4;
+                }
+            }
+
+            else if (calc_rot == 3){
+                // turn_right();
+                // straight();
+                cur_dir += 1;
+                if (cur_dir > 4){
+                    cur_dir -= 4;
+                }
+            }
+
+            if ((next_x==1 && next_y==1) || (next_x==1 && next_y==3) || (next_x==3 && next_y==1) || (next_x==3 && next_y==1)){
+                set_bomb = 1;
+            }
+        }
     }
     // 스레드가 종료될 때까지 대기
     pthread_join(thread_qr, NULL);

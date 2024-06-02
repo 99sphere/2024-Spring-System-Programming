@@ -26,6 +26,7 @@ void* run_qr(void* arg){
     int sock = data->sock;
     int* cur_x_ptr = data->cur_x_ptr;
     int* cur_y_ptr = data->cur_y_ptr;
+    int* set_bomb_ptr = data->set_bomb_ptr;
     
     VideoCapture cap(0);
     if (!cap.isOpened()) {
@@ -65,7 +66,7 @@ void* run_qr(void* arg){
                     
                     action.row = x;
                     action.col = y;
-                    action.action = 1; // (1: set trap, 0: none) -> error
+                    action.action = *set_bomb_ptr; // (1: set trap, 0: none) -> error
                     send(sock, &action, sizeof(ClientAction), 0);
                     printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
                 }
