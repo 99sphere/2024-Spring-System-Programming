@@ -44,17 +44,17 @@ void* run_qr(void* arg){
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
             printf("%s\n", typeid(info).name());
-            
+
             ClientAction action;
             // int xy=stoi(info); // -> error
-            int x = xy / 10;
-            int y = xy % 10;
-            *cur_x_ptr = x;
-            *cur_y_ptr = y;
-            action.row = x;
-            action.col = y; 
+            // int x = xy / 10;
+            // int y = xy % 10;
+            // *cur_x_ptr = x;
+            // *cur_y_ptr = y;
+            // action.row = x;
+            // action.col = y; 
             // action.action = ; // (1: set trap, 0: none) -> error
-            send(sock, &action, sizeof(ClientAction), 0);
+            // send(sock, &action, sizeof(ClientAction), 0);
         }
         sleep(1);
     }
