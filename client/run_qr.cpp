@@ -42,9 +42,8 @@ void* run_qr(void* arg){
         String info = "22";
 
         if(detector.detect(gray, points)){
-            info = detector.decode(gray, points);
+            // info = detector.decode(gray, points);
             ClientAction action;
-
             int xy=stoi(info); // -> error
             int x = xy / 10;
             int y = xy % 10;
