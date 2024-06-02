@@ -94,8 +94,6 @@ int main(int argc, char* argv[]) {
 
     // Init for main algorithm (Greedy)
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
-    int next_x;
-    int next_y;
 
     while(1){
         int next_dir= -1;
@@ -121,9 +119,6 @@ int main(int argc, char* argv[]) {
                         }
                         if (score > score_min){
                             next_dir = d;
-                            next_x = nx;
-                            next_y = ny;
-
                         }
                     }
                 }
@@ -168,7 +163,8 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            if ((next_x==1 && next_y==1) || (next_x==1 && next_y==3) || (next_x==3 && next_y==1) || (next_x==3 && next_y==3)){
+            sleep(1);
+            if ((cur_x==1 && cur_y==1) || (cur_x==1 && cur_y==3) || (cur_x==3 && cur_y==1) || (cur_x==3 && cur_y==3)){
                 set_bomb = 1;
                 printf("Set Bomb : 1\n");
             }
@@ -177,7 +173,6 @@ int main(int argc, char* argv[]) {
                 printf("Set Bomb : 0\n");
 
             }
-            sleep(1);
         }
     }
 
