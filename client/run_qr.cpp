@@ -71,7 +71,7 @@ void* run_qr(void* arg){
                 }
             }
             else{
-                printf("Contour Area Error Occured\n")
+                printf("Contour Area Error Occured\n");
             }
         }
 
