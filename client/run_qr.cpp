@@ -56,9 +56,10 @@ void* run_qr(void* arg){
         }
         cvtColor(frame, gray, COLOR_BGR2GRAY);
         vector<Point> points;
-        String info;
-        String info_trim;
+        
         if(detector.detect(gray, points)){
+            String info;
+            String info_trim;
             info = detector.decode(gray, points);
             info_trim = trim(&info);
 
