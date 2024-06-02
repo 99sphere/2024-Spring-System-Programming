@@ -65,8 +65,8 @@ void* run_qr(void* arg){
 
             cout << info << endl;
             cout << info_trim << endl;
-            cout << isNumber(&info) << endl;
-            cout << isNumber(&info_trim) << endl;
+            cout << isNumber(info) << endl;
+            cout << isNumber(info_trim) << endl;
 
             ClientAction action;
             int xy=stoi(info); // -> error
