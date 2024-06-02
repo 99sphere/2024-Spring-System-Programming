@@ -70,6 +70,7 @@ void* run_qr(void* arg){
                     else{
                         set_bomb = 0;
                         printf("Set Bomb : 0\n");
+                    }
                     action.action = set_bomb;
                     send(sock, &action, sizeof(ClientAction), 0);
                 }
