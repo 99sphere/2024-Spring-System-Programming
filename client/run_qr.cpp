@@ -51,7 +51,7 @@ void* run_qr(void* arg){
             *cur_y_ptr = y;
             action.row = x;
             action.col = y; 
-            action.action = 0; // (1: set trap, 0: none)
+            // action.action = 0; // (1: set trap, 0: none)
             printf("current loc: (%d, %d)", 0, 0);
             send(sock, &action, sizeof(ClientAction), 0);
         }
