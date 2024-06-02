@@ -21,8 +21,8 @@ int main(int argc, char* argv[]) {
         printf("Usage: %s <Server IP> <port number> <cur dir>\n", argv[0]);
         return 1;
     }
-    int my_dir = atoi(argv[3]);
 
+    int my_dir = atoi(argv[3]);
     if (!((my_dir == 1) || (my_dir == 3))){
         printf("Current direction must be 1 or 3.\n");
         return 2;
@@ -32,11 +32,6 @@ int main(int argc, char* argv[]) {
 
     int cur_x = -1;
     int cur_y = -1;
-
-    if (argc != 3) {
-        printf("Usage: %s <Server IP> <port number>\n", argv[0]);
-        return 1;
-    }
 
     int sock = 0;
     struct sockaddr_in serv_addr;
