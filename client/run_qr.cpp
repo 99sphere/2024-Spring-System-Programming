@@ -62,7 +62,7 @@ void* run_qr(void* arg){
 
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
-            if isNumber(info){
+            if (isNumber(info)){
                 ClientAction action;
                 int xy=stoi(info); // -> error
                 int x = xy / 10;
