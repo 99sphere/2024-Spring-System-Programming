@@ -42,13 +42,14 @@ void* run_qr(void* arg){
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
             ClientAction action;
-            int xy=stoi(info);
-            int x = xy / 10;
-            int y = xy % 10;
-            *cur_x_ptr = x;
-            *cur_y_ptr = y;
-            action.row = x; // x 값 설정
-            action.col = y; // y 값 설정
+
+            // int xy=stoi(info);
+            // int x = xy / 10;
+            // int y = xy % 10;
+            *cur_x_ptr = 0;
+            *cur_y_ptr = 0;
+            action.row = 0; // x 값 설정
+            action.col = 0; // y 값 설정
             // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
             printf("current loc: (%d, %d)", x, y);
             send(sock, &action, sizeof(ClientAction), 0);
