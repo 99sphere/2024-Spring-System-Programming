@@ -42,7 +42,6 @@ int main(int argc, char* argv[]) {
     serv_addr.sin_port = htons(PORT);
     serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
 
-    DGIST raw_map;
 
     // DGIST 서버에 연결
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
@@ -76,6 +75,7 @@ int main(int argc, char* argv[]) {
     pthread_t thread_map;
     map_thread_data_t map_thread_data;
     
+    DGIST raw_map;
     // 스레드 데이터 초기화
     map_thread_data.sock = sock;
     map_thread_data.raw_map_ptr = &raw_map;
@@ -89,6 +89,10 @@ int main(int argc, char* argv[]) {
     }
     // 경로탐색 알고리즘
 
+    while(1){
+        printMap(raw_map);
+        delay(1);
+    }
     // 스레드가 종료될 때까지 대기
     pthread_join(thread_qr, NULL);
     pthread_join(thread_map, NULL);

@@ -17,18 +17,6 @@ bool isNumber(const string& s) {
     return !s.empty() && all_of(s.begin(), s.end(), ::isdigit);
 }
 
-// 문자열에서 공백 제거하는 함수
-string trim(const string& str) {
-    string result;
-    result.reserve(str.size());
-    for (char ch : str) {
-        if (!isspace(static_cast<unsigned char>(ch))) {
-            result.push_back(ch);
-        }
-    }
-    return result;
-}
-
 // thread 돌릴때 인자 전달 어떻게 하는지
 void* run_qr(void* arg){
 // int run_qr(int sock, int *x_ptr, int *y_ptr){
