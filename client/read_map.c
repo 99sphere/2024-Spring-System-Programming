@@ -9,7 +9,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-extern map_mutex;
+extern pthread_mutex_t map_mutex;
 
 void printMap(DGIST dgist) {
     printf("Map:\n");

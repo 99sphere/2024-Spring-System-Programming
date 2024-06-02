@@ -12,7 +12,7 @@
 using namespace std;
 using namespace cv;
 
-extern qr_mutex;
+extern pthread_mutex_t qr_mutex;
 
 // 문자열이 숫자인지 확인하는 함수
 bool isNumber(const string& s) {
