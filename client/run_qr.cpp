@@ -55,8 +55,12 @@ void* run_qr(void* arg){
                 int xy=stoi(info); // -> error
                 int x = xy / 10;
                 int y = xy % 10;
+
+                pthread_mutex_lock(&qr_mutex);
                 *cur_x_ptr = x;
                 *cur_y_ptr = y;
+                pthread_mutex_unlock(&qr_mutex);
+                
                 action.row = x;
                 action.col = y;
                 printf("[QR Thread Running] x: %d, y: %d\n", x, y);

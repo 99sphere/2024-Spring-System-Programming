@@ -12,6 +12,10 @@
 #include "run_qr.hpp"
 #include "read_map.h"
 
+
+pthread_mutex_t map_mutex;
+pthread_mutex_t qr_mutex;
+
 int main(int argc, char* argv[]) {
     if (argc != 3) {
         printf("Usage: %s <Server IP> <port number>\n", argv[0]);
@@ -42,7 +46,6 @@ int main(int argc, char* argv[]) {
     serv_addr.sin_port = htons(PORT);
     serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
 
-
     // DGIST 서버에 연결
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("\nConnection Failed \n");
@@ -51,6 +54,8 @@ int main(int argc, char* argv[]) {
 
     // ClientAction 구조체 생성 및 설정
 
+    pthread_mutex_init(&qr_mutex, NULL);
+    pthread_mutex_init(&map_mutex, NULL);
     // 평생 실행될 qr detection을 thread로 실행
     pthread_t thread_qr;
     qr_thread_data_t qr_thread_data;
@@ -70,6 +75,7 @@ int main(int argc, char* argv[]) {
         exit(-1);
     }
 
+    
     // 평생 실행될 server에서 map을 받아오는 코드 thread로 실행
     // 평생 실행될 qr detection을 thread로 실행
     pthread_t thread_map;
@@ -90,6 +96,7 @@ int main(int argc, char* argv[]) {
     // 경로탐색 알고리즘
 
     while(1){
+        // cur_x, cur_y -> 현재 위치
         printf("[Main Algorithm]\n");
         printMap(raw_map);
         sleep(1);
@@ -97,6 +104,9 @@ int main(int argc, char* argv[]) {
     // 스레드가 종료될 때까지 대기
     pthread_join(thread_qr, NULL);
     pthread_join(thread_map, NULL);
+
+    pthread_mutex_destroy(&qr_mutex);
+    pthread_mutex_destroy(&map_mutex);
 
     close(sock);
     return 0;

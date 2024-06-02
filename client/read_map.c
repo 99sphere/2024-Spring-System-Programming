@@ -45,7 +45,10 @@ void* read_map(void* arg) {
             printf("Server disconnected\n");
         }
         // 받아온 데이터를 DGIST 구조체로 변환
+
+        pthread_mutex_lock(&map_mutex);
         memcpy(raw_map_ptr, buffer, sizeof(DGIST));
+        pthread_mutex_unlock(&map_mutex);
 
         // 맵 데이터 출력
         // printMap(received_dgist);
