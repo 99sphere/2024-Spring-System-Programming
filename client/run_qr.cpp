@@ -31,7 +31,7 @@ void* run_qr(void* arg){
     printf("[CALL QR THREAD] \n");
     
     while (true) {  
-        printf("[QR THREAD RUNNING]\n");
+        printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
@@ -52,7 +52,7 @@ void* run_qr(void* arg){
             *cur_y_ptr = 0;
             action.row = 0; // x 값 설정
             action.col = 0; // y 값 설정
-            // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
+            action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
             printf("current loc: (%d, %d)", 0, 0);
             send(sock, &action, sizeof(ClientAction), 0);
         }
