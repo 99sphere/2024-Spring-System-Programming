@@ -51,7 +51,7 @@ void* run_qr(void* arg){
             action.row = 0; // x 값 설정
             action.col = 0; // y 값 설정
             // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
-            printf("current loc: (%d, %d)", x, y);
+            printf("current loc: (%d, %d)", 0, 0);
             send(sock, &action, sizeof(ClientAction), 0);
         }
         sleep(1);
