@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 
     while(1){
         printf("[Main Algorithm]\n");
-        printMap((DGIST)raw_map);
+        printMap(map_thread_data.raw_map_ptr);
         sleep(1);
     }
     // 스레드가 종료될 때까지 대기
