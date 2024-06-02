@@ -37,6 +37,8 @@ void* run_qr(void* arg){
         cvtColor(frame, gray, COLOR_BGR2GRAY);
         vector<Point> points;
         String info = "0";
+
+        printf("[QR thread] Run");
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
             ClientAction action;
@@ -48,11 +50,10 @@ void* run_qr(void* arg){
             action.row = x; // x 값 설정
             action.col = y; // y 값 설정
             // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
-
             printf("current loc: (%d, %d)", x, y);
-
             send(sock, &action, sizeof(ClientAction), 0);
         }
+        delay(50);
     }
     cap.release();
 }
