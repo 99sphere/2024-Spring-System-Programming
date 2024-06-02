@@ -38,7 +38,7 @@ void* run_qr(void* arg){
         vector<Point> points;
         String info = "0";
         if(detector.detect(gray, points)){
-             = detector.decode(gray, points);
+            info = detector.decode(gray, points);
             ClientAction action;
             int xy=stoi(info);
             int x = xy / 10;
@@ -50,7 +50,7 @@ void* run_qr(void* arg){
             // action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
 
             printf("current loc: (%d, %d)", x, y);
-            
+
             send(sock, &action, sizeof(ClientAction), 0);
         }
     }
