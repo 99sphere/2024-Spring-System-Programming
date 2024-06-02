@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
         printf("Usage: %s <Server IP> <port number> <cur dir>\n", argv[0]);
         return 1;
     }
-    int my_dir = stoi(argv[2]);
+    int my_dir = atoi(argv[2]);
     if ((my_dir != 1) || (my_dir != 3)){
         printf("Current direction must be 1 or 3", argv[0]);
         return 2;
