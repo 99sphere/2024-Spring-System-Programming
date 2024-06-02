@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "run_qr.hpp"
-#include "client.h"
+#include "read_map.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {

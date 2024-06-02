@@ -6,6 +6,7 @@
         "pthread.h": "c",
         "semaphore.h": "c",
         "string": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "read_map.h": "c"
     }
 }

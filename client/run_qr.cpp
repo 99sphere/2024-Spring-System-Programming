@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include "client.h"
+#include "read_map.h"
 #include "run_qr.hpp"
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,7 +71,7 @@ void* run_qr(void* arg){
                 *cur_y_ptr = y;
                 action.row = x;
                 action.col = y;
-                printf("x: %d, y: %d\n", x, y);
+                printf("[QR Thread Running] x: %d, y: %d\n", x, y);
                 // action.action = 1; // (1: set trap, 0: none) -> error
                 send(sock, &action, sizeof(ClientAction), 0);
             }

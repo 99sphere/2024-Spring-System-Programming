@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "client.h"
+#include "read_map.h"
 #include <pthread.h>
 #include <semaphore.h>
 
