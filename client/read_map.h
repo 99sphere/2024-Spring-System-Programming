@@ -66,10 +66,8 @@ enum Action{
 typedef struct{
 	int row;
 	int col;
-	enum Action action;
+	int action;
 } ClientAction;
-
-
 
 // Added
 void* read_map(void* arg);
