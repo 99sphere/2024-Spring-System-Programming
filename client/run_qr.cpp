@@ -42,8 +42,6 @@ void* run_qr(void* arg){
 
         // TEST
         ClientAction action;
-        *cur_x_ptr = x;
-        *cur_y_ptr = y;
         action.row = 3;
         action.col = 3; 
         action.action = 0; // (1: set trap, 0: none)
