@@ -63,7 +63,7 @@ void* run_qr(void* arg){
                     action.row = x;
                     action.col = y;
                     action.action = *set_bomb_ptr;
-                    printf("### x: %d, y: %d, set_bomb: %d", x, y, *set_bomb_ptr)
+                    printf("### x: %d, y: %d, set_bomb: %d", x, y, *set_bomb_ptr);
                     send(sock, &action, sizeof(ClientAction), 0);
                 }
             }
