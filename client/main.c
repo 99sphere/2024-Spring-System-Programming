@@ -22,8 +22,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     int my_dir = atoi(argv[2]);
-    if ((my_dir != 1) || (my_dir != 3)){
-        printf("Current direction must be 1 or 3", argv[0]);
+
+    if (!((my_dir == 1) || (my_dir == 3))){
+        printf("Current direction must be 1 or 3.\n");
         return 2;
     }
 
