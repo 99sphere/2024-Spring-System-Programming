@@ -32,7 +32,7 @@ void* run_qr(void* arg){
     
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;    
-    while (true) {  
+    while (true) {
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
