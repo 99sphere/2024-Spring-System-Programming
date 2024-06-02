@@ -62,24 +62,19 @@ void* run_qr(void* arg){
 
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
-            info_trim = trim(info);
-
-            cout << info << endl;
-            cout << info_trim << endl;
-            cout << isNumber(info) << endl;
-            cout << isNumber(info_trim) << endl;
-            cout << "============" << endl;
-            
-            ClientAction action;
-            // int xy=stoi(info); // -> error
-            // int x = xy / 10;
-            // int y = xy % 10;
-            // *cur_x_ptr = x;
-            // *cur_y_ptr = y;
-            // action.row = x;
-            // action.col = y; 
-            // action.action = ; // (1: set trap, 0: none) -> error
-            // send(sock, &action, sizeof(ClientAction), 0);
+            if isNumber(info){
+                ClientAction action;
+                int xy=stoi(info); // -> error
+                int x = xy / 10;
+                int y = xy % 10;
+                *cur_x_ptr = x;
+                *cur_y_ptr = y;
+                action.row = x;
+                action.col = y;
+                printf("x: %d, y: %d", x, y);
+                // action.action = 1; // (1: set trap, 0: none) -> error
+                send(sock, &action, sizeof(ClientAction), 0);
+            }
         }
         sleep(1);
     }
