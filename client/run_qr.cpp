@@ -43,9 +43,10 @@ void* run_qr(void* arg){
 
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
-            cout << typeid(info).name() << endl;
+            printf("%s\n", typeid(info).name());
+            
             ClientAction action;
-            int xy=stoi(info); // -> error
+            // int xy=stoi(info); // -> error
             int x = xy / 10;
             int y = xy % 10;
             *cur_x_ptr = x;
