@@ -96,6 +96,7 @@ int main(int argc, char* argv[]) {
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
 
     while(1){
+        set_bomb = 0;
         int next_dir= -1;
         int score_min = -1;
 
