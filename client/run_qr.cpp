@@ -41,20 +41,31 @@ void* run_qr(void* arg){
         vector<Point> points;
         String info = "22";
 
-        if(detector.detect(gray, points)){
-            // info = detector.decode(gray, points);
-            ClientAction action;
-            int xy=stoi(info); // -> error
-            int x = xy / 10;
-            int y = xy % 10;
-            *cur_x_ptr = x;
-            *cur_y_ptr = y;
-            action.row = x;
-            action.col = y; 
-            // action.action = 0; // (1: set trap, 0: none)
-            printf("current loc: (%d, %d)", 0, 0);
-            send(sock, &action, sizeof(ClientAction), 0);
-        }
+        // TEST
+        ClientAction action;
+        int xy=stoi(info); // -> error
+        int x = xy / 10;
+        int y = xy % 10;
+        *cur_x_ptr = x;
+        *cur_y_ptr = y;
+        action.row = x;
+        action.col = y; 
+        // action.action = 0; // (1: set trap, 0: none)
+        send(sock, &action, sizeof(ClientAction), 0);
+
+        // if(detector.detect(gray, points)){
+        //     info = detector.decode(gray, points);
+        //     ClientAction action;
+        //     int xy=stoi(info); // -> error
+        //     int x = xy / 10;
+        //     int y = xy % 10;
+        //     *cur_x_ptr = x;
+        //     *cur_y_ptr = y;
+        //     action.row = x;
+        //     action.col = y; 
+        //     // action.action = 0; // (1: set trap, 0: none)
+        //     send(sock, &action, sizeof(ClientAction), 0);
+        // }
         sleep(1);
     }
     cap.release();
