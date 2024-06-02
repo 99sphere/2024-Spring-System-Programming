@@ -57,14 +57,15 @@ void* run_qr(void* arg){
         cvtColor(frame, gray, COLOR_BGR2GRAY);
         vector<Point> points;
         String info;
-
+        String info_trim;
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
-            info = trim(&info);
+            info_trim = trim(&info);
 
             cout << info << endl;
-            cout << typeid(info).name() << endl;
+            cout << info_trim << endl;
             cout << isNumber(&info) << endl;
+            cout << isNumber(&info_trim) << endl;
 
             ClientAction action;
             int xy=stoi(info); // -> error
