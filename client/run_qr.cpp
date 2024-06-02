@@ -47,7 +47,7 @@ void* run_qr(void* arg){
             cout << typeid(info).name() << endl;
 
             ClientAction action;
-            // int xy=stoi(info); // -> error
+            int xy=stoi(info); // -> error
             // int x = xy / 10;
             // int y = xy % 10;
             // *cur_x_ptr = x;
