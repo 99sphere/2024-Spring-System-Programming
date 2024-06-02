@@ -53,7 +53,7 @@ void* run_qr(void* arg){
             printf("current loc: (%d, %d)", x, y);
             send(sock, &action, sizeof(ClientAction), 0);
         }
-        delay(50);
+        sleep(1);
     }
     cap.release();
 }
