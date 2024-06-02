@@ -93,11 +93,8 @@ int main(int argc, char* argv[]) {
         printf("Error: unable to create thread, %d\n", map_thread_ret);
         exit(-1);
     }
-                       상     우     하      좌
+                  
     int dir[4][2] = {{1,0},{-1,0},{0,-1},{0,1}};
-    
-    0,0
-
     int prev_x;
     int prev_y;
 
