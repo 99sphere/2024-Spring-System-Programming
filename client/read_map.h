@@ -69,16 +69,11 @@ typedef struct{
 	enum Action action;
 } ClientAction;
 
-//밑에 있는 함수는 서버 함수라서 신경쓰지 않아도 되어요.
-void* handleClient(void* arg);
-void* broadcastInformation(void* arg);
-void setItem(DGIST* dPtr);
-void* printMap(void* arg); 
-void* handleItem(void* arg);
-void printPlayer(void* arg);
+
 
 // Added
 void* read_map(void* arg);
+void printMap(DGIST dgist);
 
 typedef struct {
     int sock;
