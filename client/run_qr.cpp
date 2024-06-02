@@ -51,10 +51,10 @@ void* run_qr(void* arg){
         String info_trim;
 
         if(detector.detect(gray, points)){
-            info = detector.decode(gray, points);
+            info = detector.decode(gray, points); // error 자주 생기면 try catch
             if (isNumber(info)){
                 ClientAction action;
-                int xy=stoi(info); // -> error
+                int xy=stoi(info);
                 int x = xy / 10;
                 int y = xy % 10;
 
@@ -65,9 +65,10 @@ void* run_qr(void* arg){
                 
                 action.row = x;
                 action.col = y;
-                printf("[QR Thread Running] x: %d, y: %d\n", x, y);
-                // action.action = 1; // (1: set trap, 0: none) -> error
+                action.action = 1; // (1: set trap, 0: none) -> error
                 send(sock, &action, sizeof(ClientAction), 0);
+                printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
+                
             }
         }
     }
