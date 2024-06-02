@@ -33,7 +33,6 @@ int main(int argc, char* argv[]) {
 
     int cur_x = -1;
     int cur_y = -1;
-    int set_bomb = 0;
     int sock = 0;
     struct sockaddr_in serv_addr;
 
