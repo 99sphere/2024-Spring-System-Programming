@@ -39,39 +39,42 @@ void* run_qr(void* arg){
     
     while (true) {  
         // printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
-        cap >> frame;
-        if (frame.empty()) {
-            std::cerr << "Error: Unable to capture frame" << std::endl;
-            break;
-        }
-        cvtColor(frame, gray, COLOR_BGR2GRAY);
-        vector<Point> points;
+        try{
+            cap >> frame;
+            if (frame.empty()) {
+                std::cerr << "Error: Unable to capture frame" << std::endl;
+                break;
+            }
+            cvtColor(frame, gray, COLOR_BGR2GRAY);
+            vector<Point> points;
 
-        String info;
-        String info_trim;
+            String info;
+            String info_trim;
 
-        if(detector.detect(gray, points)){
-            try{
+            if(detector.detect(gray, points)){
                 info = detector.decode(gray, points); // error 자주 생기면 try catch
                 if (isNumber(info)){
                     ClientAction action;
                     int xy=stoi(info);
                     int x = xy / 10;
                     int y = xy % 10;
+
                     pthread_mutex_lock(&qr_mutex);
                     *cur_x_ptr = x;
                     *cur_y_ptr = y;
                     pthread_mutex_unlock(&qr_mutex);
+                    
                     action.row = x;
                     action.col = y;
                     action.action = 1; // (1: set trap, 0: none) -> error
                     send(sock, &action, sizeof(ClientAction), 0);
-                    printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);    
+                    printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
+    
                 }
-            catch{
-                printf("QR detect but,fail to decoding")
             }
-            }
+        }
+        catch{
+            printf("########################");
         }
     }
     cap.release();
