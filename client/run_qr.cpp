@@ -14,14 +14,11 @@ using namespace cv;
 
 extern pthread_mutex_t qr_mutex;
 
-// 문자열이 숫자인지 확인하는 함수
 bool isNumber(const string& s) {
     return !s.empty() && all_of(s.begin(), s.end(), ::isdigit);
 }
 
-// thread 돌릴때 인자 전달 어떻게 하는지
 void* run_qr(void* arg){
-// int run_qr(int sock, int *x_ptr, int *y_ptr){
     qr_thread_data_t* data = (qr_thread_data_t*) arg;
     int sock = data->sock;
     int* cur_x_ptr = data->cur_x_ptr;
@@ -36,7 +33,6 @@ void* run_qr(void* arg){
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;    
     while (true) {  
-        // printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
@@ -47,6 +43,8 @@ void* run_qr(void* arg){
 
         String info;
 
+        // If QR detcted, decode and update cur_x, cur_y value. 
+        // And send to server (cur_x, cur_y, action) info. 
         if(detector.detect(gray, points)){
             if (contourArea(points) > 0.0){
                 info = detector.decode(gray, points); 
@@ -56,6 +54,7 @@ void* run_qr(void* arg){
                     int x = xy / 10;
                     int y = xy % 10;
 
+                    // Synchronize with mutex to secure the shared resource.
                     pthread_mutex_lock(&qr_mutex);
                     *cur_x_ptr = x;
                     *cur_y_ptr = y;
@@ -63,7 +62,7 @@ void* run_qr(void* arg){
                     
                     action.row = x;
                     action.col = y;
-                    action.action = *set_bomb_ptr; // (1: set trap, 0: none) -> error
+                    action.action = *set_bomb_ptr;
                     send(sock, &action, sizeof(ClientAction), 0);
                 }
             }

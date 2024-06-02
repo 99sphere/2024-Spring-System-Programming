@@ -31,9 +31,7 @@ void printMap(DGIST dgist) {
     }
 }
 
-// thread에 인자를 어떻게 넘기냐
 void* read_map(void* arg) {
-// void *read_map(int sock, DGIST* raw_map_ptr) {
     map_thread_data_t* data = (map_thread_data_t*) arg;
     int sock = data->sock;
     DGIST* raw_map_ptr = data->raw_map_ptr;
@@ -41,17 +39,15 @@ void* read_map(void* arg) {
     char buffer[sizeof(DGIST)] = {0};
     int valread;
     while(1){
-        // 서버로부터 데이터 받아오기
+        // Get map info from server
         if ((valread = read(sock, buffer, sizeof(DGIST))) == 0) {
             printf("Server disconnected\n");
         }
-        // 받아온 데이터를 DGIST 구조체로 변환
+        printf("get map info from server"); // TODO: erase
 
+        // Synchronize with mutex to secure the shared resource.
         pthread_mutex_lock(&map_mutex);
         memcpy(raw_map_ptr, buffer, sizeof(DGIST));
         pthread_mutex_unlock(&map_mutex);
-
-        // 맵 데이터 출력
-        // printMap(received_dgist);
     }
 }
