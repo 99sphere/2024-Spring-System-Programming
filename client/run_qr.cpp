@@ -59,7 +59,7 @@ void* run_qr(void* arg){
                     *cur_x_ptr = x;
                     *cur_y_ptr = y;
                     pthread_mutex_unlock(&qr_mutex);
-                    
+    
                     action.row = x;
                     action.col = y;
                     action.action = *set_bomb_ptr;

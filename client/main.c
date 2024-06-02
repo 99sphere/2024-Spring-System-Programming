@@ -172,6 +172,7 @@ int main(int argc, char* argv[]) {
                 printf("Set Bomb : 0\n");
 
             }
+            sleep(1);
         }
     }
 
