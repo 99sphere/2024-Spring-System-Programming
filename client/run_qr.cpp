@@ -68,6 +68,8 @@ void* run_qr(void* arg){
                     action.col = y;
                     action.action = *set_bomb_ptr; // (1: set trap, 0: none) -> error
                     send(sock, &action, sizeof(ClientAction), 0);
+
+                    printf("x: %d, y: %d, set_bomb: %d", x, y, *set_bomb_ptr);
                     printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
                 }
             }
