@@ -61,7 +61,7 @@ void* run_qr(void* arg){
             String info;
             String info_trim;
             info = detector.decode(gray, points);
-            info_trim = trim(&info);
+            info_trim = trim(info);
 
             cout << info << endl;
             cout << info_trim << endl;
