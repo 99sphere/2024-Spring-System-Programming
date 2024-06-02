@@ -39,12 +39,18 @@ void* run_qr(void* arg){
         }
         cvtColor(frame, gray, COLOR_BGR2GRAY);
         vector<Point> points;
+        String info = "22";
 
         // TEST
         ClientAction action;
+        int xy=stoi(info); // -> error
+        int x = xy / 10;
+        int y = xy % 10;
+        *cur_x_ptr = x;
+        *cur_y_ptr = y;
         action.row = 3;
         action.col = 3; 
-        // action.action = 0; // (1: set trap, 0: none) -> error
+        action.action = 0; // (1: set trap, 0: none)
         send(sock, &action, sizeof(ClientAction), 0);
 
         // if(detector.detect(gray, points)){
