@@ -48,7 +48,7 @@ void* run_qr(void* arg){
     printf("[CALL QR THREAD] \n");
     
     while (true) {  
-        printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
+        // printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
@@ -71,12 +71,11 @@ void* run_qr(void* arg){
                 *cur_y_ptr = y;
                 action.row = x;
                 action.col = y;
-                printf("x: %d, y: %d", x, y);
+                printf("x: %d, y: %d\n", x, y);
                 // action.action = 1; // (1: set trap, 0: none) -> error
                 send(sock, &action, sizeof(ClientAction), 0);
             }
         }
-        sleep(1);
     }
     cap.release();
 }
