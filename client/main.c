@@ -128,6 +128,7 @@ int main(int argc, char* argv[]) {
         if (next_dir==-1){ // Surrounded by trap
             // turn_left();
             // turn_left();
+            // straight();
             cur_dir -= 2;
             if (cur_dir < 0){
                 cur_dir += 4;
