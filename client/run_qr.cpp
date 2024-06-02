@@ -32,6 +32,7 @@ void* run_qr(void* arg){
     
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;    
+    int set_bomb;
     while (true) {
         cap >> frame;
         if (frame.empty()) {
@@ -62,8 +63,14 @@ void* run_qr(void* arg){
     
                     action.row = x;
                     action.col = y;
-                    action.action = *set_bomb_ptr;
-                    printf("### x: %d, y: %d, set_bomb: %d\n", x, y, *set_bomb_ptr);
+                    if ((x==1 && y==1) || (x==1 && y==3) || (x==3 && y==1) || (x==3 && y==3)){
+                        set_bomb = 1;
+                        printf("Set Bomb : 1\n");
+                    }
+                    else{
+                        set_bomb = 0;
+                        printf("Set Bomb : 0\n");
+                    action.action = set_bomb;
                     send(sock, &action, sizeof(ClientAction), 0);
                 }
             }
