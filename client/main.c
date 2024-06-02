@@ -90,8 +90,9 @@ int main(int argc, char* argv[]) {
     // 경로탐색 알고리즘
 
     while(1){
+        printf("[Main Algorithm]\n");
         printMap(raw_map);
-        delay(1);
+        sleep(1);
     }
     // 스레드가 종료될 때까지 대기
     pthread_join(thread_qr, NULL);

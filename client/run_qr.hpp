@@ -6,4 +6,3 @@ typedef struct {
 } qr_thread_data_t;
 
 void* run_qr(void* arg);
-bool isNumber(const string& s);
