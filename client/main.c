@@ -94,9 +94,9 @@ int main(int argc, char* argv[]) {
 
     // Init for main algorithm (Greedy)
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
-    int next_dir;
 
     while(1){
+        int next_dir=-1;
         int score_min = -1;
 
         for(int d = 0;d<4;d++){
@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    
+
     // Wait until thread terminate
     pthread_join(thread_qr, NULL);
     pthread_join(thread_map, NULL);
