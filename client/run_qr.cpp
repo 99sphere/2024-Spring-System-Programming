@@ -51,24 +51,26 @@ void* run_qr(void* arg){
         String info_trim;
 
         if(detector.detect(gray, points)){
-            info = detector.decode(gray, points); // error 자주 생기면 try catch
-            if (isNumber(info)){
-                ClientAction action;
-                int xy=stoi(info);
-                int x = xy / 10;
-                int y = xy % 10;
-
-                pthread_mutex_lock(&qr_mutex);
-                *cur_x_ptr = x;
-                *cur_y_ptr = y;
-                pthread_mutex_unlock(&qr_mutex);
-                
-                action.row = x;
-                action.col = y;
-                action.action = 1; // (1: set trap, 0: none) -> error
-                send(sock, &action, sizeof(ClientAction), 0);
-                printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
-                
+            try{
+                info = detector.decode(gray, points); // error 자주 생기면 try catch
+                if (isNumber(info)){
+                    ClientAction action;
+                    int xy=stoi(info);
+                    int x = xy / 10;
+                    int y = xy % 10;
+                    pthread_mutex_lock(&qr_mutex);
+                    *cur_x_ptr = x;
+                    *cur_y_ptr = y;
+                    pthread_mutex_unlock(&qr_mutex);
+                    action.row = x;
+                    action.col = y;
+                    action.action = 1; // (1: set trap, 0: none) -> error
+                    send(sock, &action, sizeof(ClientAction), 0);
+                    printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);    
+                }
+            catch{
+                printf("QR detect but,fail to decoding")
+            }
             }
         }
     }
