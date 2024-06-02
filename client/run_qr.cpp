@@ -44,7 +44,7 @@ void* run_qr(void* arg){
         ClientAction action;
         action.row = 3;
         action.col = 3; 
-        action.action = 0; // (1: set trap, 0: none)
+        // action.action = 0; // (1: set trap, 0: none) -> error
         send(sock, &action, sizeof(ClientAction), 0);
 
         // if(detector.detect(gray, points)){
