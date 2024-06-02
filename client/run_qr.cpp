@@ -39,20 +39,20 @@ void* run_qr(void* arg){
         }
         cvtColor(frame, gray, COLOR_BGR2GRAY);
         vector<Point> points;
-        String info = "0";
+        String info = "22";
 
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
             ClientAction action;
 
-            // int xy=stoi(info);
-            // int x = xy / 10;
-            // int y = xy % 10;
-            *cur_x_ptr = 0;
-            *cur_y_ptr = 0;
-            action.row = 0; // x 값 설정
-            action.col = 0; // y 값 설정
-            action.action = 0; // 함정 설정 여부 설정 (1: 함정 설정, 0: 함정 설정 안 함)
+            int xy=stoi(info); // -> error
+            int x = xy / 10;
+            int y = xy % 10;
+            *cur_x_ptr = x;
+            *cur_y_ptr = y;
+            action.row = x;
+            action.col = y; 
+            action.action = 0; // (1: set trap, 0: none)
             printf("current loc: (%d, %d)", 0, 0);
             send(sock, &action, sizeof(ClientAction), 0);
         }
