@@ -6,7 +6,6 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include "server.h"
-#include <sys/socket.h>
 
 sem_t mapLock;
 
@@ -16,6 +15,7 @@ static inline int makeRandomInt(int max, int min) {
 
 // Thread entry function to handle each client
 void* handleClient(void *arg) {
+
     DGIST* dgist = (DGIST*)arg;
     client_info* client;
     int client_socket;
@@ -145,8 +145,8 @@ void* printMap(void* arg) {
 
 	printf("==========PRINT MAP==========\n");
     sem_wait(&mapLock);
-	for (int j = 0; j < MAP_COL; j++) {
-		for (int i = 0; i < MAP_ROW; i++) {
+	for (int i = 0; i < MAP_ROW; i++) {
+		for (int j = 0; j < MAP_COL; j++) {
             tmpItem = (dgist->map[i][j]).item;
             switch (tmpItem.status) {
                 case nothing:
@@ -233,7 +233,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
