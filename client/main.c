@@ -23,13 +23,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // init start direction
     int cur_dir = atoi(argv[3]);
+
     if (!((cur_dir == 1) || (cur_dir == 3))){
         printf("Current direction must be 1 or 3.\n");
         return 2;
     }
-
-    // line tracing()
 
     int cur_x = -1;
     int cur_y = -1;
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     int sock = 0;
     struct sockaddr_in serv_addr;
 
-    // 소켓 생성
+    // Create Socket
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");
         return -1;
@@ -48,17 +48,14 @@ int main(int argc, char* argv[]) {
     serv_addr.sin_port = htons(PORT);
     serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
 
-    // DGIST 서버에 연결
+    // Connect to server
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         printf("\nConnection Failed \n");
         return -1;
     }
 
-    // ClientAction 구조체 생성 및 설정
-
+    // Init thread assets (QR)
     pthread_mutex_init(&qr_mutex, NULL);
-    pthread_mutex_init(&map_mutex, NULL);
-    // 평생 실행될 qr detection을 thread로 실행
     pthread_t thread_qr;
     qr_thread_data_t qr_thread_data;
 
@@ -68,7 +65,7 @@ int main(int argc, char* argv[]) {
     qr_thread_data.cur_y_ptr = &cur_y;
     qr_thread_data.set_bomb_ptr = &set_bomb;
 
-    // Create Thread
+    // Create and run QR thread
     int qr_thread_ret;
     qr_thread_ret = pthread_create(&thread_qr, NULL, run_qr, (void*)&qr_thread_data);
     if (qr_thread_ret) {
@@ -76,18 +73,18 @@ int main(int argc, char* argv[]) {
         exit(-1);
     }
 
-    
-    // 평생 실행될 server에서 map을 받아오는 코드 thread로 실행
-    // 평생 실행될 qr detection을 thread로 실행
+    // Init thread assets (map)
+    pthread_mutex_init(&map_mutex, NULL);
     pthread_t thread_map;
     map_thread_data_t map_thread_data;
     
+
+    // Init data struct for map thread
     DGIST raw_map={0,};
-    // 스레드 데이터 초기화
     map_thread_data.sock = sock;
     map_thread_data.raw_map_ptr = &raw_map;
 
-    // 스레드 생성
+    // Create and run map thread
     int map_thread_ret;
     map_thread_ret = pthread_create(&thread_map, NULL, read_map, (void*)&map_thread_data);
     if (map_thread_ret) {
@@ -95,17 +92,13 @@ int main(int argc, char* argv[]) {
         exit(-1);
     }
 
+    // Init for main algorithm (Greedy)
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
-    int prev_x = -1;
-    int prev_y = -1;
-
     int next_dir;
-    // int next_x;
-    // int next_y;
+
     while(1){
         int score_min = -1;
 
-        // printf("[Main Loop] cur_x: %d, cur_y: %d, cur_status: %d", cur_x, cur_y, raw_map.map[cur_x][cur_y].item.status);
         for(int d = 0;d<4;d++){
             int score;
             int diff = d - cur_dir;
@@ -126,25 +119,20 @@ int main(int argc, char* argv[]) {
                         }
                         if (score > score_min){
                             next_dir = d;
-                            // next_x = nx;
-                            // next_y = ny;
                         }
                     }
                 }
             }
         }
         
-        if (next_dir==-1){ // trap 또는 빈칸으로 둘러싸인 경우, 지금은 유턴
-            // turn_left();
-            // turn_left();
-            // straight();
+        if (next_dir==-1){ // Surrounded by trap
             cur_dir -= 2;
             if (cur_dir < 0){
                 cur_dir += 4;
             }        
         }
 
-        else{
+        else{ // Go to next node
             int calc_rot = cur_dir - next_dir;
             if (calc_rot < 0){
                 calc_rot += 4;
@@ -177,7 +165,8 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    // 스레드가 종료될 때까지 대기
+    
+    // Wait until thread terminate
     pthread_join(thread_qr, NULL);
     pthread_join(thread_map, NULL);
 

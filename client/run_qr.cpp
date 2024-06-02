@@ -34,10 +34,7 @@ void* run_qr(void* arg){
     }
     
     cv::QRCodeDetector detector;
-    cv::Mat frame, gray;
-
-    printf("[CALL QR THREAD] \n");
-    
+    cv::Mat frame, gray;    
     while (true) {  
         // printf("[QR THREAD RUNNING] After finishing debugging, delete delay!\n");
         cap >> frame;
@@ -52,7 +49,7 @@ void* run_qr(void* arg){
 
         if(detector.detect(gray, points)){
             if (contourArea(points) > 0.0){
-                info = detector.decode(gray, points); // error 자주 생기면 try catch
+                info = detector.decode(gray, points); 
                 if (isNumber(info)){
                     ClientAction action;
                     int xy=stoi(info);
@@ -68,9 +65,6 @@ void* run_qr(void* arg){
                     action.col = y;
                     action.action = *set_bomb_ptr; // (1: set trap, 0: none) -> error
                     send(sock, &action, sizeof(ClientAction), 0);
-
-                    printf("x: %d, y: %d, set_bomb: %d", x, y, *set_bomb_ptr);
-                    printf("[QR Thread Running & Detect QR] x: %d, y: %d\n", x, y);
                 }
             }
             else{

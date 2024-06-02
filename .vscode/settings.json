@@ -7,6 +7,7 @@
         "semaphore.h": "c",
         "string": "cpp",
         "ostream": "cpp",
-        "read_map.h": "c"
+        "read_map.h": "c",
+        "iostream": "cpp"
     }
 }
