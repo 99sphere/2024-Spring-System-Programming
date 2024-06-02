@@ -23,7 +23,6 @@ void* run_qr(void* arg){
     int sock = data->sock;
     int* cur_x_ptr = data->cur_x_ptr;
     int* cur_y_ptr = data->cur_y_ptr;
-    int* set_bomb_ptr = data->set_bomb_ptr;
     
     VideoCapture cap(0);
     if (!cap.isOpened()) {
@@ -65,11 +64,9 @@ void* run_qr(void* arg){
                     action.col = y;
                     if ((x==1 && y==1) || (x==1 && y==3) || (x==3 && y==1) || (x==3 && y==3)){
                         set_bomb = 1;
-                        printf("Set Bomb : 1\n");
                     }
                     else{
                         set_bomb = 0;
-                        printf("Set Bomb : 0\n");
                     }
                     action.action = set_bomb;
                     send(sock, &action, sizeof(ClientAction), 0);

@@ -63,7 +63,6 @@ int main(int argc, char* argv[]) {
     qr_thread_data.sock = sock;
     qr_thread_data.cur_x_ptr = &cur_x;
     qr_thread_data.cur_y_ptr = &cur_y;
-    qr_thread_data.set_bomb_ptr = &set_bomb;
 
     // Create and run QR thread
     int qr_thread_ret;
