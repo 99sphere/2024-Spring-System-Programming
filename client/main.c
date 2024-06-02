@@ -165,9 +165,12 @@ int main(int argc, char* argv[]) {
 
             if ((cur_x==1 && cur_y==1) || (cur_x==1 && cur_y==3) || (cur_x==3 && cur_y==1) || (cur_x==3 && cur_y==3)){
                 set_bomb = 1;
+                printf("Set Bomb : 1\n");
             }
             else{
                 set_bomb = 0;
+                printf("Set Bomb : 0\n");
+
             }
         }
     }
