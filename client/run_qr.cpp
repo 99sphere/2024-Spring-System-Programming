@@ -52,7 +52,7 @@ void* run_qr(void* arg){
             *cur_y_ptr = y;
             action.row = x;
             action.col = y; 
-            action.action = ; // (1: set trap, 0: none) -> error
+            // action.action = ; // (1: set trap, 0: none) -> error
             send(sock, &action, sizeof(ClientAction), 0);
         }
         sleep(1);
