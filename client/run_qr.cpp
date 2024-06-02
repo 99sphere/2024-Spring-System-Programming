@@ -28,7 +28,9 @@ void* run_qr(void* arg){
     cv::QRCodeDetector detector;
     cv::Mat frame, gray;
 
+    
     while (true) {  
+        printf("[QR thread] Run");
         cap >> frame;
         if (frame.empty()) {
             std::cerr << "Error: Unable to capture frame" << std::endl;
@@ -38,7 +40,6 @@ void* run_qr(void* arg){
         vector<Point> points;
         String info = "0";
 
-        printf("[QR thread] Run");
         if(detector.detect(gray, points)){
             info = detector.decode(gray, points);
             ClientAction action;
