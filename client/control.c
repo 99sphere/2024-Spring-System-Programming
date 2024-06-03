@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include "control.h"
 
+extern int fd;
+
 int write_i2c_block_data(int reg, unsigned char* data, int length) {
     unsigned char buf[length + 1];
     buf[0] = reg;

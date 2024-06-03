@@ -8,6 +8,7 @@
         "string": "cpp",
         "ostream": "cpp",
         "read_map.h": "c",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "control.h": "c"
     }
 }
