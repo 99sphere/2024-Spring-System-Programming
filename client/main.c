@@ -113,8 +113,12 @@ int main(int argc, char* argv[]) {
     ctrl_ret = go_straight();
     delay(50);
     ctrl_ret = turn_left();
+    delay(50);
+    ctrl_ret = go_straight();
 
-    printf("Turn left end");
+    delay(50);
+    printf("End");
+
     return 0;
     // Init for main algorithm (Greedy)    
     while(1){
