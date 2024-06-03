@@ -107,16 +107,18 @@ int main(int argc, char* argv[]) {
     pinMode(PIN_R1, INPUT);
     pinMode(PIN_R2, INPUT);
 
-    // Init for main algorithm (Greedy)
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
     int ctrl_ret;
 
     ctrl_ret = go_straight();
     ctrl_ret = turn_left();
-    
+
+    // Init for main algorithm (Greedy)    
     while(1){
         int next_dir= -1;
         int score_min = -1;
+        int next_x;
+        int next_y;
 
         for(int d = 0;d<4;d++){
             int score;
@@ -138,13 +140,17 @@ int main(int argc, char* argv[]) {
                         }
                         if (score > score_min){
                             next_dir = d;
+                            next_x = nx;
+                            next_y = ny;
                         }
                     }
                 }
             }
         }
         
+        printf("next x: %d, next y: %d", next_x, next_y);
         if (next_dir==-1){ // Surrounded by trap
+            printf("BACK");
             ctrl_ret = turn_left();
             ctrl_ret = turn_left();
             ctrl_ret = go_straight();
@@ -161,10 +167,12 @@ int main(int argc, char* argv[]) {
             }
 
             if (calc_rot == 0){
+                printf("FRONT");
                 ctrl_ret = go_straight();
             } 
 
             else if (calc_rot == 1){
+                printf("LEFT");
                 ctrl_ret = turn_left();
                 ctrl_ret = go_straight();
                 cur_dir -= 1;
@@ -174,10 +182,11 @@ int main(int argc, char* argv[]) {
             }
 
             else if (calc_rot == 3){
+                printf("RIGHT");
                 ctrl_ret = turn_right();
                 ctrl_ret = go_straight();
                 cur_dir += 1;
-                if (cur_dir > 4){
+                if (cur_dir > 3){
                     cur_dir -= 4;
                 }
             }

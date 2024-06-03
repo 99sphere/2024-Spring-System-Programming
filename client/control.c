@@ -48,7 +48,7 @@ int car_stop() {
 }
 
 int turn_left() {
-    ctrl_car(0, 120, 1, 90);
+    ctrl_car(0, 120, 1, 120);
     delay(500);
     ctrl_car(0, 0, 0, 0);
     return 0;
