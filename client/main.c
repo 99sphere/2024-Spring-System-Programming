@@ -111,15 +111,7 @@ int main(int argc, char* argv[]) {
     int ctrl_ret;
 
     ctrl_ret = go_straight();
-    delay(50);
-    ctrl_ret = turn_left();
-    delay(50);
-    ctrl_ret = go_straight();
-
-    delay(50);
-    printf("End");
-
-    return 0;
+    
     // Init for main algorithm (Greedy)    
     while(1){
         int next_dir= -1;
@@ -159,7 +151,9 @@ int main(int argc, char* argv[]) {
         if (next_dir==-1){ // Surrounded by trap
             printf("BACK");
             ctrl_ret = turn_left();
+            delay(50);
             ctrl_ret = turn_left();
+            delay(50);
             ctrl_ret = go_straight();
             cur_dir -= 2;
             if (cur_dir < 0){
@@ -181,6 +175,7 @@ int main(int argc, char* argv[]) {
             else if (calc_rot == 1){
                 printf("LEFT");
                 ctrl_ret = turn_left();
+                delay(50);
                 ctrl_ret = go_straight();
                 cur_dir -= 1;
                 if (cur_dir < 0){
@@ -191,6 +186,7 @@ int main(int argc, char* argv[]) {
             else if (calc_rot == 3){
                 printf("RIGHT");
                 ctrl_ret = turn_right();
+                delay(50);
                 ctrl_ret = go_straight();
                 cur_dir += 1;
                 if (cur_dir > 3){
