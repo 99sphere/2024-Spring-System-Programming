@@ -48,6 +48,7 @@ int car_stop() {
 }
 
 int turn_left() {
+    printf("turn left");
     ctrl_car(0, 120, 1, 120);
     delay(500);
     ctrl_car(0, 0, 0, 0);
@@ -55,6 +56,7 @@ int turn_left() {
 }
 
 int turn_right() {
+    printf("turn right");
     ctrl_car(1, 120, 0, 120);
     delay(500);
     ctrl_car(0, 0, 0, 0);
@@ -62,6 +64,8 @@ int turn_right() {
 }
 
 int go_straight() {
+    printf("go straight");
+
     while(1){
         int L1 = digitalRead(PIN_L1);
         int L2 = digitalRead(PIN_L2);
