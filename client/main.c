@@ -113,6 +113,7 @@ int main(int argc, char* argv[]) {
     ctrl_ret = go_straight();
     ctrl_ret = turn_left();
 
+    return 0;
     // Init for main algorithm (Greedy)    
     while(1){
         int next_dir= -1;
@@ -190,7 +191,6 @@ int main(int argc, char* argv[]) {
                     cur_dir -= 4;
                 }
             }
-            sleep(1);
         }
     }
 
