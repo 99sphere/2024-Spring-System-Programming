@@ -4,18 +4,17 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <wiringPi.h>
+#include <wiringPiI2C.h>
 #include "run_qr.hpp"
 #include "read_map.h"
+#include "control.h"
 
 
 pthread_mutex_t map_mutex;
 pthread_mutex_t qr_mutex;
-
+int fd;
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
@@ -90,8 +89,28 @@ int main(int argc, char* argv[]) {
         exit(-1);
     }
 
+    // Init wiringPi
+    if (wiringPiSetup() == -1) {
+        printf("WiringPi Setup Failure\n");
+        return 1;
+    }
+    else printf("WiringPi Setup Sucessed");
+
+    fd = wiringPiI2CSetup(DEVICE_ADDR);
+    if (fd == -1) {
+        printf("I2C Setup Failure\n");
+        return 1;
+    }
+    else printf("I2C Setup Sucessed");
+
+    pinMode(PIN_L1, INPUT);
+    pinMode(PIN_L2, INPUT);
+    pinMode(PIN_R1, INPUT);
+    pinMode(PIN_R2, INPUT);
+
     // Init for main algorithm (Greedy)
     int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+    int ctrl_ret;
 
     while(1){
         int next_dir= -1;
@@ -124,9 +143,9 @@ int main(int argc, char* argv[]) {
         }
         
         if (next_dir==-1){ // Surrounded by trap
-            // turn_left();
-            // turn_left();
-            // straight();
+            ctrl_ret = turn_left();
+            ctrl_ret = turn_left();
+            ctrl_ret = go_straight();
             cur_dir -= 2;
             if (cur_dir < 0){
                 cur_dir += 4;
@@ -140,12 +159,12 @@ int main(int argc, char* argv[]) {
             }
 
             if (calc_rot == 0){
-                // straight();
+                ctrl_ret = go_straight();
             } 
 
             else if (calc_rot == 1){
-                // turn_left();
-                // straight();
+                ctrl_ret = turn_left();
+                ctrl_ret = go_straight();
                 cur_dir -= 1;
                 if (cur_dir < 0){
                     cur_dir += 4;
@@ -153,14 +172,13 @@ int main(int argc, char* argv[]) {
             }
 
             else if (calc_rot == 3){
-                // turn_right();
-                // straight();
+                ctrl_ret = turn_right();
+                ctrl_ret = go_straight();
                 cur_dir += 1;
                 if (cur_dir > 4){
                     cur_dir -= 4;
                 }
             }
-
             sleep(1);
         }
     }
