@@ -3,8 +3,7 @@
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
 #include <unistd.h>
-
-extern int fd;
+#include "control.h"
 
 int write_i2c_block_data(int reg, unsigned char* data, int length) {
     unsigned char buf[length + 1];

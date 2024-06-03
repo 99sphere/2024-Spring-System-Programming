@@ -11,7 +11,6 @@
 #include "read_map.h"
 #include "control.h"
 
-
 pthread_mutex_t map_mutex;
 pthread_mutex_t qr_mutex;
 int fd;
@@ -113,7 +112,7 @@ int main(int argc, char* argv[]) {
     int ctrl_ret;
 
     ctrl_ret = go_straight();
-    
+
     while(1){
         int next_dir= -1;
         int score_min = -1;
