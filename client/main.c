@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
     ctrl_ret = go_straight();
     delay(50);
-    ctrl_ret = turn_right();
+    ctrl_ret = turn_left();
 
     printf("Turn left end");
     return 0;
