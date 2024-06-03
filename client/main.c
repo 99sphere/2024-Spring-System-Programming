@@ -112,7 +112,8 @@ int main(int argc, char* argv[]) {
     int ctrl_ret;
 
     ctrl_ret = go_straight();
-
+    ctrl_ret = turn_left();
+    
     while(1){
         int next_dir= -1;
         int score_min = -1;
