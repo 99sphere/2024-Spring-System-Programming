@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
     delay(500);
     ctrl_car(0, 0, 0, 0);
 
-    printf("Turn left end")
+    printf("Turn left end");
     return 0;
     // Init for main algorithm (Greedy)    
     while(1){
