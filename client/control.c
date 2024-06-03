@@ -48,16 +48,16 @@ int car_stop() {
 }
 
 int turn_left() {
-    ctrl_car(0, 90, 1, 90);
+    ctrl_car(0, 120, 1, 90);
     delay(500);
-    car_stop();
+    ctrl_car(0, 0, 0, 0);
     return 0;
 }
 
 int turn_right() {
-    ctrl_car(1, 90, 0, 90);
+    ctrl_car(1, 120, 0, 120);
     delay(500);
-    car_stop();
+    ctrl_car(0, 0, 0, 0);
     return 0;
 }
 
@@ -99,14 +99,14 @@ int go_straight() {
         if (L2 == LOW && R1 == LOW && (L1 ==LOW || R2 == LOW)){
             car_run(100, 100) ;
             delay(250);
-            car_stop();
+            ctrl_car(0, 0, 0, 0);
             return 1 ;
         }
 
         if (L1 == LOW && L2 == LOW && R1 == LOW && R2 == LOW){
             car_run(100, 100);
             delay(250);
-            car_stop();
+            ctrl_car(0, 0, 0, 0);
             return 1;
         }
         
