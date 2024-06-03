@@ -111,7 +111,11 @@ int main(int argc, char* argv[]) {
     int ctrl_ret;
 
     ctrl_ret = go_straight();
-    ctrl_ret = turn_left();
+
+    printf("Stop\n");
+    ctrl_car(0, 120, 1, 120);
+    delay(500);
+    ctrl_car(0, 0, 0, 0);
 
     return 0;
     // Init for main algorithm (Greedy)    
