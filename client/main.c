@@ -113,6 +113,7 @@ int main(int argc, char* argv[]) {
     ctrl_ret = go_straight();
 
     printf("Stop\n");
+    delay(50)
     ctrl_car(0, 120, 1, 120);
     delay(500);
     ctrl_car(0, 0, 0, 0);
