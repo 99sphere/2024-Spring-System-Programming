@@ -23,7 +23,7 @@ make
 ./Server <Port Number>
 ```
 
-# Code
+# Function
 - main.c      
   Connect to server, setup wiring Pi, global path planning and car control. 
   
