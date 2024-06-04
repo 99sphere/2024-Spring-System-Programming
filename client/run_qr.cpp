@@ -70,6 +70,7 @@ void* run_qr(void* arg){
                     }
                     action.action = set_bomb;
                     send(sock, &action, sizeof(ClientAction), 0);
+                    printf("[QR Thread] x: %d, y: %d\n", x, y);
                 }
             }
             else{

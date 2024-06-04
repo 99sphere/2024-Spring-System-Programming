@@ -43,7 +43,7 @@ void* read_map(void* arg) {
         if ((valread = read(sock, buffer, sizeof(DGIST))) == 0) {
             printf("Server disconnected\n");
         }
-        printf("get map info from server\n"); // TODO: erase
+        // printf("get map info from server\n"); // TODO: erase
 
         // Synchronize with mutex to secure the shared resource.
         pthread_mutex_lock(&map_mutex);

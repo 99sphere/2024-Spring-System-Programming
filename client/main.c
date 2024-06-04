@@ -24,10 +24,10 @@ int main(int argc, char* argv[]) {
     // init start direction
     int cur_dir = atoi(argv[3]);
 
-    if (!((cur_dir == 1) || (cur_dir == 3))){
-        printf("Current direction must be 1 or 3.\n");
-        return 2;
-    }
+    // if (!((cur_dir == 1) || (cur_dir == 3))){
+    //     printf("Current direction must be 1 or 3.\n");
+    //     return 2;
+    // }
 
     int cur_x = -1;
     int cur_y = -1;
@@ -93,31 +93,31 @@ int main(int argc, char* argv[]) {
         printf("WiringPi Setup Failure\n");
         return 1;
     }
-    else printf("WiringPi Setup Sucessed");
+    else printf("WiringPi Setup Sucessed\n");
 
     fd = wiringPiI2CSetup(DEVICE_ADDR);
     if (fd == -1) {
         printf("I2C Setup Failure\n");
         return 1;
     }
-    else printf("I2C Setup Sucessed");
+    else printf("I2C Setup Sucessed\n");
 
     pinMode(PIN_L1, INPUT);
     pinMode(PIN_L2, INPUT);
     pinMode(PIN_R1, INPUT);
     pinMode(PIN_R2, INPUT);
 
-    int dir[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
-    int ctrl_ret;
 
-    ctrl_ret = go_straight();
-    
     // Init for main algorithm (Greedy)    
+    int dir[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
+    int ctrl_ret;
+    ctrl_ret = go_straight();
+
     while(1){
         int next_dir= -1;
         int score_min = -1;
-        int next_x;
-        int next_y;
+        int next_x=0;
+        int next_y=0;
 
         for(int d = 0;d<4;d++){
             int score;
@@ -147,9 +147,9 @@ int main(int argc, char* argv[]) {
             }
         }
         
-        printf("next x: %d, next y: %d", next_x, next_y);
+        printf("next x: %d, next y: %d\n", next_x, next_y);
         if (next_dir==-1){ // Surrounded by trap
-            printf("BACK");
+            printf("BACK\n");
             ctrl_ret = turn_left();
             delay(50);
             ctrl_ret = turn_left();
@@ -168,12 +168,12 @@ int main(int argc, char* argv[]) {
             }
 
             if (calc_rot == 0){
-                printf("FRONT");
+                printf("FRONT\n");
                 ctrl_ret = go_straight();
             } 
 
             else if (calc_rot == 1){
-                printf("LEFT");
+                printf("LEFT\n");
                 ctrl_ret = turn_left();
                 delay(50);
                 ctrl_ret = go_straight();
@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
             }
 
             else if (calc_rot == 3){
-                printf("RIGHT");
+                printf("RIGHT\n");
                 ctrl_ret = turn_right();
                 delay(50);
                 ctrl_ret = go_straight();

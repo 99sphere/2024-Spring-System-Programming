@@ -48,24 +48,54 @@ int car_stop() {
 }
 
 int turn_left() {
-    printf("turn left");
-    ctrl_car(0, 120, 1, 120);
-    delay(500);
-    ctrl_car(0, 0, 0, 0);
+    printf("Turn left");
+    ctrl_car(0, 30, 1, 50);
+    delay(300);
+    while(1){
+    	int L1 = digitalRead(PIN_L1);
+	int L2 = digitalRead(PIN_L2);
+	int R1 = digitalRead(PIN_R1);
+	int R2 = digitalRead(PIN_R2);
+
+	ctrl_car(0, 0, 1, 70);
+	delay(100);
+
+	if (L2==LOW && R1 ==LOW){
+	    ctrl_car(0,0,0,0);
+	    delay(50);
+	    return 1;
+	}
+    }
+    
     return 0;
 }
 
 int turn_right() {
-    printf("turn right");
-    ctrl_car(1, 120, 0, 120);
-    delay(500);
-    ctrl_car(0, 0, 0, 0);
+    printf("Turn Right\n");
+    ctrl_car(1, 50, 0, 30);
+    delay(300);
+    while(1){
+        int L1 = digitalRead(PIN_L1);
+	int L2 = digitalRead(PIN_L2);
+	int R1 = digitalRead(PIN_R1);
+	int R2 = digitalRead(PIN_R2);
+    	
+	ctrl_car(1, 70, 0, 0);
+	delay(100);
+
+	if (L2==LOW && R1==LOW){
+	    ctrl_car(0,0,0,0);
+	    delay(50);
+	    return 1;
+	}
+    }
+    
     return 0;
 }
 
 int go_straight() {
-    printf("go straight");
-
+    printf("go straight\n");
+    
     while(1){
         int L1 = digitalRead(PIN_L1);
         int L2 = digitalRead(PIN_L2);
@@ -97,25 +127,24 @@ int go_straight() {
             delay(20);          
         }
         else if (L2 == LOW && R1 == LOW) {
-            car_run(35, 35);
+            car_run(70, 70);
+	    delay(20);
         }
         
         if (L2 == LOW && R1 == LOW && (L1 ==LOW || R2 == LOW)){
-            car_run(100, 100) ;
-            delay(250);
             ctrl_car(0, 0, 0, 0);
+	    delay(20);
             return 1 ;
         }
 
         if (L1 == LOW && L2 == LOW && R1 == LOW && R2 == LOW){
-            car_run(100, 100);
-            delay(250);
             ctrl_car(0, 0, 0, 0);
+	    delay(20);
             return 1;
         }
         
         if (L1 == HIGH && L2 == HIGH && R1 == HIGH && R2 == HIGH){
-            car_run(-30, -30) ;
+	    car_run(-30, -30) ;
             delay(100) ;
         }
     }
