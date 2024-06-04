@@ -23,7 +23,15 @@ make
 ./Server <Port Number>
 ```
 
-# Logic
-- run_qr.c
+# Code
+- main.c
+  Connect to server, setup wiring Pi, global path planning and car control. 
+  
+- run_qr.cpp
+  Running thread that detect and decode QR Code and send decoded info to server.
+
 - read_map.c
+  Running thread that recieve map info from server.
+    
 - control.c
+  Consist with go_straight, turn_left, turn_right function.
