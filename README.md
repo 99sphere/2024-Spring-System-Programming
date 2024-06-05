@@ -37,9 +37,8 @@ make
   Consist with go_straight, turn_left, turn_right function.
 
 # Path Planning
-control.c에서 한 칸 전진, 제자리에서 좌, 우 방향으로 회전하는 기능만을 제공하므로, map을 기준으로 하는 globla direction과 현재 차량의 방향을 기준으로 하는 local direction 정보를 유지한다.
-0, 1, 2, 3은 각각 상, 우, 하, 좌를 의미한다. 
-현재 차량의 위치를 기준으로, 상, 하, 좌, 우 방향의 다음 node의 정보를 확인한다. item이 존재하지 않는 경우, score가 0인 item으로 간주하여 주변 node 가장 높은 점수를 갖는 node로 이동한다. 상, 좌, 우 방향이 모두 trap으로 둘러싸인 경우, 180도 회전하여 빠져나간다.
+Since "control.c" only provides the functions of moving forward one step and rotating left or right in place, it maintains both the global direction based on the map and the local direction based on the current vehicle's orientation. 0, 1, 2, 3 represent up, right, down, and left, respectively. Based on the current vehicle's position, it checks the information of the next node in the up, down, left, and right directions. If an item does not exist, it is considered an item with a score of 0, and the vehicle moves to the node with the highest score among the surrounding nodes. If all directions except down (up, left, and right) are surrounded by traps, it rotates 180 degrees to escape.
 
 # Set Bomb Strategy
+The locations for placing the bombs were set manually. Bombs were placed at (1, 1), (1, 3), (3, 1), and (3, 3), where frequent movement is expected.
 
