@@ -76,18 +76,18 @@ int turn_right() {
     delay(300);
     while(1){
         int L1 = digitalRead(PIN_L1);
-	int L2 = digitalRead(PIN_L2);
-	int R1 = digitalRead(PIN_R1);
-	int R2 = digitalRead(PIN_R2);
-    	
-	ctrl_car(1, 70, 0, 0);
-	delay(100);
+        int L2 = digitalRead(PIN_L2);
+        int R1 = digitalRead(PIN_R1);
+        int R2 = digitalRead(PIN_R2);
+            
+        ctrl_car(1, 70, 0, 0);
+        delay(100);
 
-	if (L2==LOW && R1==LOW){
-	    ctrl_car(0,0,0,0);
-	    delay(50);
-	    return 1;
-	}
+        if (L2==LOW && R1==LOW){
+            ctrl_car(0,0,0,0);
+            delay(50);
+            return 1;
+        }
     }
     
     return 0;

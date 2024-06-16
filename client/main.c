@@ -13,6 +13,8 @@
 
 pthread_mutex_t map_mutex;
 pthread_mutex_t qr_mutex;
+pthread_mutex_t main_mutex;
+
 int fd;
 
 int main(int argc, char* argv[]) {
@@ -113,12 +115,15 @@ int main(int argc, char* argv[]) {
     int ctrl_ret;
     ctrl_ret = go_straight();
 
+    pthread_mutex_init(&main_mutex, NULL);
+
     while(1){
         int next_dir= -1;
         int score_min = -1;
         int next_x=0;
         int next_y=0;
 
+        pthread_mutex_lock(&main_mutex);
         for(int d = 0;d<4;d++){
             int score;
             int diff = d - cur_dir;
@@ -146,6 +151,8 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
+        pthread_mutex_unlock(&main_mutex);
+
         
         printf("next x: %d, next y: %d\n", next_x, next_y);
         if (next_dir==-1){ // Surrounded by trap
@@ -202,6 +209,7 @@ int main(int argc, char* argv[]) {
 
     pthread_mutex_destroy(&qr_mutex);
     pthread_mutex_destroy(&map_mutex);
+    pthread_mutex_destroy(&main_mutex);
 
     close(sock);
     return 0;

@@ -50,4 +50,5 @@ void* read_map(void* arg) {
         memcpy(raw_map_ptr, buffer, sizeof(DGIST));
         pthread_mutex_unlock(&map_mutex);
     }
+    return NULL;
 }

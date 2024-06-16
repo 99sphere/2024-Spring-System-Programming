@@ -80,4 +80,5 @@ void* run_qr(void* arg){
 
     }
     cap.release();
+    return NULL;
 }
