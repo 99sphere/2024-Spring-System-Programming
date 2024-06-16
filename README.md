@@ -6,6 +6,10 @@
 - 202211211 최한슬
 - 202211222 황지영
 
+# Demo
+![demo](https://github.com/99sphere/2024-Spring-System-Programming/assets/59161083/beb5565a-b684-4464-973a-12047003a68c)
+
+
 # Compile & Execution
 ## Client
 ```
@@ -41,8 +45,4 @@ Since "control.c" only provides the functions of moving forward one step and rot
 
 # Set Bomb Strategy
 The locations for placing the bombs were set manually. Bombs were placed at (1, 1), (1, 3), (3, 1), and (3, 3), where frequent movement is expected.
-
-# Demo
-![demo](https://github.com/99sphere/2024-Spring-System-Programming/assets/59161083/beb5565a-b684-4464-973a-12047003a68c)
-
 
