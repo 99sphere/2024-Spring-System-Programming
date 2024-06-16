@@ -20,6 +20,8 @@ g++ -Wall main.c read_map.c control.c run_qr.cpp -o runfile -lpthread -lwiringPi
 ```
 
 ## Server
+> Server code comes from "https://github.com/CELL-DGIST/2024_SystemProgramming_Server.git"
+
 ```
 git clone {repo}
 cd {repo_name}/server
